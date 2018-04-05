@@ -17,12 +17,16 @@
 %  \RequirePackage{babel}
   \PassOptionsToPackage{slovak}{babel}
 	\def\slovak{1}
+	
 }
 
 \ExecuteOptions{english} % default is english
 
 \ProcessOptions\relax
 
+\if\slovak1
+	\RequirePackage{icomma}
+\fi
 %----------------------------------------------------------------%
 %   Typeset packages
 %----------------------------------------------------------------%
@@ -61,6 +65,7 @@
 \RequirePackage{etoolbox}
 \RequirePackage{tabularx}
 \RequirePackage{paralist}
+\RequirePackage{subfigure}
 %----------------------------------------------------------------%
 
 %----------------------------------------------------------------%
