@@ -31,6 +31,10 @@
 % e.g., "Institute of Information Engineering, Automation, and Mathematics"
 \def\thesisinst{Ústav Automatizácie, Informatizácie a Riadenia Procesov}
 
+% Title of the Acknowledgment
+% For slovak write: "Poďakovanie" for English write: "Acknowledgment"
+\def\thesisack{Poďakovanie}
+
 
 % End THESIS DATA
 %----------------------------------------------------------------%
@@ -63,7 +67,13 @@
 % \includepdf[page=2]{content/assignment.pdf}
 
 
+% do not remove following commands
 % do not following commands
+\chapter*{\thesisack}
+\markboth{}{}
+\addcontentsline{toc}{chapter}{\thesisack}
+\input{content/acknowledgment}
+
 \chapter*{Abstract}
 \markboth{}{}
 \addcontentsline{toc}{chapter}{Abstract}
