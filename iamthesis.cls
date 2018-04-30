@@ -282,13 +282,16 @@ template},urlcolor=blue]{hyperref}
 % left-right brackets
 \newcommand{\lrb}[1]{\ensuremath{\left[ #1 \right]}}
 
+\newcommand{\dif}[2]{\ensuremath{\frac{\mathrm{d}\, #1}{\mathrm{d}\, #2}}}
 \newcommand{\diff}[2]{\ensuremath{\frac{\partial\, #1}{\partial\, #2}}}
 \newcommand{\diffxy}[3]{\ensuremath{\frac{\partial^2\, #1}{\partial\,
 #2\; \partial\, #3}}}
 \newcommand{\diffat}[3]{\ensuremath{\left.\frac{\partial #1}{\partial 
 #2}\right\vert_{#3}}}
+\newcommand{\difat}[3]{\ensuremath{\left.\frac{\mathrm{d} #1}{\mathrm{d} 
+#2}\right\vert_{#3}}}
 \newcommand{\dt}[1]{\ensuremath{\frac{\mathrm{d}#1}{\mathrm{d}t}}}
-
+%\newcommand{\dtat}[1]{\ensuremath{\frac{\mathrm{d}#1}{\mathrm{d}t}}}
 %----------------------------------------------------------------%
 %   end of file
 %----------------------------------------------------------------%
