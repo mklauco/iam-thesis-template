@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{iamthesis}[2014/08/16 Example LaTeX class]
- 
+
 \LoadClass[10pt, fleqn, b5paper]{book}
 \ProcessOptions\relax
 
@@ -9,15 +9,15 @@
 %----------------------------------------------------------------%
 \RequirePackage{babel}
 \DeclareOption{english}{
-  \PassOptionsToPackage{english}{babel}
-	\def\slovak{0}
+\PassOptionsToPackage{english}{babel}
+\def\slovak{0}
 }
 
 \DeclareOption{slovak}{
 %  \RequirePackage{babel}
-  \PassOptionsToPackage{slovak}{babel}
-	\def\slovak{1}
-	
+\PassOptionsToPackage{slovak}{babel}
+\def\slovak{1}
+
 }
 
 \ExecuteOptions{english} % default is english
@@ -25,7 +25,7 @@
 \ProcessOptions\relax
 
 \if\slovak1
-	\RequirePackage{icomma}
+\RequirePackage{icomma}
 \fi
 %----------------------------------------------------------------%
 %   Typeset packages
@@ -78,7 +78,7 @@
 \RequirePackage{amsthm}
 \RequirePackage{thmtools}
 \RequirePackage{needspace}
-%\RequirePackage{geometry}
+\RequirePackage{etoolbox}
 \RequirePackage[b5paper]{geometry}
 \setcounter{secnumdepth}{3}
 \RequirePackage{booktabs}
@@ -122,9 +122,9 @@ template},urlcolor=blue]{hyperref}
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
 \lhead[\fancyplain{}{\sffamily\bfseries\thepage}]%
-      {\fancyplain{}{\sffamily\bfseries\rightmark}}
+{\fancyplain{}{\sffamily\bfseries\rightmark}}
 \rhead[\fancyplain{}{\sffamily\bfseries\leftmark}]%
-      {\fancyplain{}{\sffamily\bfseries\thepage}}
+{\fancyplain{}{\sffamily\bfseries\thepage}}
 \cfoot{}
 
 
@@ -135,22 +135,30 @@ template},urlcolor=blue]{hyperref}
 \def\@makechapterhead#1{%
   \vspace*{15\p@}%
   {\parindent \z@ \raggedright \normalfont
-   \ifnum \c@secnumdepth >\m@ne
-      \if@mainmatter
-        \large\scshape \@chapapp \space\space \huge\upshape\thechapter
-        \par\nobreak
-        \vskip 20\p@
-      \fi
-    \fi
-    \interlinepenalty\@M
-    \flushleft\parbox{\textwidth}{\raggedleft \sffamily\huge\bfseries  #1}
-     \par\nobreak
-     \vskip 15pt
-     \hrule height 0.5pt
-    \vskip 10\p@
+  \ifnum \c@secnumdepth >\m@ne
+  \if@mainmatter
+  \large\scshape \@chapapp \space\space \huge\upshape\thechapter
+  \par\nobreak
+  \vskip 20\p@
+  \fi
+  \fi
+  \interlinepenalty\@M
+  \flushleft\parbox{\textwidth}{\raggedleft \sffamily\huge\bfseries  #1}
+  \par\nobreak
+  \vskip 15pt
+  \hrule height 0.5pt
+  \vskip 10\p@
   }}
   
   
+\newcommand{\ifstringequal}[4]{%
+\ifnum\pdfstrcmp{#1}{#2}=0
+  #3%
+  \else
+  #4%
+  \fi
+  }
+
 %----------------------------------------------------------------%
 %   Typeset the coverpage
 %----------------------------------------------------------------%
@@ -161,35 +169,47 @@ template},urlcolor=blue]{hyperref}
 \thispagestyle{empty}
 
 \begin{center}
-  \if\slovak1
-		\textbf{\large SLOVENSKÁ TECHNICKÁ UNIVERZITA V~BRATISLAVE}
-		
-		\textbf{\large FAKULTA CHEMICKEJ A~POTRAVINÁRSKEJ TECHNOLÓGIE}
-  \else
-		\textbf{\large SLOVAK UNIVERSITY OF TECHNOLOGY IN~BRATISLAVA}
-		
-		\textbf{\large FACULTY OF CHEMICAL AND FOOD TECHNOLOGY}
-  \fi
-\end{center}
-  \if\slovak1
-	  Evidenčné číslo: FCHPT-\thesisnumber
-  \else
-	  Reg. No.: FCHPT-\thesisnumber
-  \fi
-\begin{center}
-  \vspace{100pt}
-  \textbf{\huge \thesistitle}
-  
-  \vspace{10pt}	
-  \if\slovak1
- 	  \textbf{\thesistype~PRÁCA}
-  \else
-	  \textbf{\thesistype~THESIS}
-  \fi
-\end{center}
-  \vfill
+\if\slovak1
+\textbf{\large SLOVENSKÁ TECHNICKÁ UNIVERZITA V~BRATISLAVE}
 
-  \textbf{\large \thesisyear} \hfill \textbf{\large \thesisauthor}
+\textbf{\large FAKULTA CHEMICKEJ A~POTRAVINÁRSKEJ TECHNOLÓGIE}
+\else
+\textbf{\large SLOVAK UNIVERSITY OF TECHNOLOGY IN~BRATISLAVA}
+
+\textbf{\large FACULTY OF CHEMICAL AND FOOD TECHNOLOGY}
+\fi
+\end{center}
+\ifstringequal{\thesislevel}{min}{
+	%
+}{%
+\if\slovak1
+Evidenčné číslo: FCHPT-\thesisnumber
+\else
+Reg. No.: FCHPT-\thesisnumber
+\fi
+}
+\begin{center}
+\vspace{100pt}
+\textbf{\huge \thesistitle}
+
+\vspace{10pt}
+\ifstringequal{\thesislevel}{min}{
+\if\slovak1
+\textbf{Písomná práca k dizertačnej skúške}
+\else
+\textbf{Minimal thesis}
+\fi
+}{%
+\if\slovak1
+\textbf{\thesistype~PRÁCA}
+\else
+\textbf{\thesistype~THESIS}
+\fi
+}
+\end{center}
+\vfill
+
+\textbf{\large \thesisyear} \hfill \textbf{\large \thesisauthor}
 
 
 \newpage
@@ -200,57 +220,68 @@ template},urlcolor=blue]{hyperref}
 \thispagestyle{empty}
 
 \begin{center}
-  \if\slovak1
-		\textbf{\large SLOVENSKÁ TECHNICKÁ UNIVERZITA V~BRATISLAVE}
-		
-		\textbf{\large FAKULTA CHEMICKEJ A~POTRAVINÁRSKEJ TECHNOLÓGIE}
-  \else
-		\textbf{\large SLOVAK UNIVERSITY OF TECHNOLOGY IN~BRATISLAVA}
-		
-		\textbf{\large FACULTY OF CHEMICAL AND FOOD TECHNOLOGY}
-  \fi
+\if\slovak1
+\textbf{\large SLOVENSKÁ TECHNICKÁ UNIVERZITA V~BRATISLAVE}
+
+\textbf{\large FAKULTA CHEMICKEJ A~POTRAVINÁRSKEJ TECHNOLÓGIE}
+\else
+\textbf{\large SLOVAK UNIVERSITY OF TECHNOLOGY IN~BRATISLAVA}
+
+\textbf{\large FACULTY OF CHEMICAL AND FOOD TECHNOLOGY}
+\fi
 \end{center}
-  \if\slovak1
-	  Evidenčné číslo: FCHPT-\thesisnumber
-  \else
-	  Reg. No.: FCHPT-\thesisnumber
-  \fi
-  
+\ifstringequal{\thesislevel}{min}{
+	%
+}{%
+\if\slovak1
+Evidenčné číslo: FCHPT-\thesisnumber
+\else
+Reg. No.: FCHPT-\thesisnumber
+\fi
+}
+
 \begin{center}
-  \vspace{100pt}
-	\textbf{\huge \thesistitle}
-	
-  \vspace{10pt}	
-  \if\slovak1
- 	  \textbf{\thesistype~PRÁCA}
-  \else
-	  \textbf{\thesistype~THESIS}
-  \fi
+\vspace{100pt}
+\textbf{\huge \thesistitle}
+
+\vspace{10pt}	
+\ifstringequal{\thesislevel}{min}{
+\if\slovak1
+\textbf{Písomná práca k dizertačnej skúške}
+\else
+\textbf{Minimal thesis}
+\fi
+}{%
+\if\slovak1
+\textbf{\thesistype~PRÁCA}
+\else
+\textbf{\thesistype~THESIS}
+\fi
+}
 \end{center}	
-	\vfill	
-	
-	\begin{small} 
-		\if\slovak1
-			\begin{tabular}{ll}
-				Študijný program:     & Riadenie Procesov    
-				\\
-					Študijný odbor:         & 5.2.14. 
-					Automatizácia \\
-					Školiace pracovisko:        &\thesisinst   
-					\\
-				Vedúci práce:   &\thesissupervisor \\
-			\end{tabular}	
-		\else
-			\begin{tabular}{ll}
-				Study programme:     & Process Control    \\
-					Study field:         & 5.2.14. Automation \\
-					Training workspace:        &\thesisinst   \\
-				Thesis supervisor:   & \thesissupervisor \\
-			\end{tabular}	
-		\fi		
-	\end{small}
-	\vfill
-	\textbf{\large \thesisyear} \hfill \textbf{\large \thesisauthor}
+\vfill	
+
+\begin{small} 
+\if\slovak1
+\begin{tabular}{ll}
+Študijný program:     & Riadenie Procesov    
+\\
+Študijný odbor:         & Kybernetika \\
+Školiace pracovisko:        &\thesisinst   
+\\
+Vedúci práce:   &\thesissupervisor \\
+\end{tabular}	
+\else
+\begin{tabular}{ll}
+Study programme:     & Process Control    \\
+Study field:         & Cybernetics \\
+Training workspace:        &\thesisinst   \\
+Thesis supervisor:   & \thesissupervisor \\
+\end{tabular}	
+\fi		
+\end{small}
+\vfill
+\textbf{\large \thesisyear} \hfill \textbf{\large \thesisauthor}
 \newpage
 \thispagestyle{empty}
 \phantom{M}
@@ -258,14 +289,14 @@ template},urlcolor=blue]{hyperref}
 
 \newcommand{\providebibliography}{
 %	\renewcommand{\sectionmark}[1]{\markright{#1}}
-	\if\slovak1
-		\sectionmark{Literatúra}
-		\addcontentsline{toc}{chapter}{Literatúra}
-	\else
-		\sectionmark{Bibliography}
-		\addcontentsline{toc}{chapter}{Bibliography}
-	\fi
-	\bibliographystyle{plain}
+\if\slovak1
+\sectionmark{Literatúra}
+\addcontentsline{toc}{chapter}{Literatúra}
+\else
+\sectionmark{Bibliography}
+\addcontentsline{toc}{chapter}{Bibliography}
+\fi
+\bibliographystyle{plain}
 }
 
 %----------------------------------------------------------------%
